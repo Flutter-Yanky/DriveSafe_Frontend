@@ -31,6 +31,7 @@ const Login = () => {
           localStorage.setItem("id", response.data.id)
           localStorage.setItem("name", response.data.name)
           localStorage.setItem("token", response.data.token)
+          localStorage.setItem("role", response.data.role)
         }
 
         setTimeout(() => {
@@ -52,7 +53,6 @@ const Login = () => {
   } = useForm();
 
   const onSubmit = (data) => {
-    console.log(data);
     LoginUser(data);
   };
 
@@ -77,9 +77,31 @@ const Login = () => {
               </p>
               <form onSubmit={handleSubmit(onSubmit)} className="mt-8">
                 <div className="space-y-5">
-                  <div>
-                    
 
+                <div>
+                  <label htmlFor="email" className="text-base font-medium text-gray-900">
+                    {' '}
+                    Role{' '}
+                  </label>
+                  <div className="mt-2">
+
+                    <select className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+                      type="text"
+                      placeholder="Role"
+                      name="role"
+                      autoComplete='off'
+                      id='role'
+                      {...register("role",{
+                        required : "Select the Role"
+                      })}>
+                      <option value="user">user</option>
+                      <option value="officer">officer</option>
+                      {errors.user_email && <p className="text-red-500 errorMsg">{errors.user_email.message}</p>}
+                    </select>
+                  </div>
+                </div>
+                  <div>
+                  
                     <label htmlFor="" className="text-base font-medium text-gray-900">
                       {" "}
                       Email address{" "}

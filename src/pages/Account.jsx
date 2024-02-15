@@ -41,6 +41,10 @@ const Account = () => {
 
   const API_URL = `http://localhost:8000/api/v1/userinfo/${id}`;
 
+  function fine_history(){
+    navigate("/fine_history");
+  }
+
   async function fetchData() {
     setLoading(true);
 
@@ -205,7 +209,9 @@ const Account = () => {
                     </dd>
                   </div>
 
-                  {/* 7 */}
+                
+
+                  {/* 8 */}
 
                   <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                     <dt className="text-sm font-medium text-gray-500">
@@ -236,6 +242,8 @@ const Account = () => {
                       onClick={logout}>
                       Logout
                     </button>
+                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded"
+                      onClick={fine_history}>Fine History</button>
                   </div>
                 </dl>
               </div>

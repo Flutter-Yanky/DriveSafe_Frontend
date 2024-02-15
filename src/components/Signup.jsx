@@ -3,9 +3,9 @@ import { Link, useNavigate } from 'react-router-dom';
 
 const Signup = () => {
 
-  const navigate =  useNavigate();
+  const navigate = useNavigate();
 
-  const createUser = async(data) => {
+  const createUser = async (data) => {
     await fetch('http://localhost:8000/api/v1/signup', {
       method: 'POST',
       body: JSON.stringify(data),
@@ -33,8 +33,8 @@ const Signup = () => {
     createUser(data);
   };
 
-    return (
-        <section>
+  return (
+    <section>
       <div className="grid grid-cols-1 lg:grid-cols-2">
         <div className="relative flex items-end px-4 pb-10 pt-60 sm:px-6 sm:pb-16 md:justify-center lg:px-8 lg:pb-24">
           <div className="absolute inset-0">
@@ -135,8 +135,32 @@ const Signup = () => {
                 Sign In
               </Link>
             </p>
-            <form  onSubmit={handleSubmit(onSubmit)} className="mt-8" >
+            <form onSubmit={handleSubmit(onSubmit)} className="mt-8" >
               <div className="space-y-5">
+
+                <div>
+                  <label htmlFor="email" className="text-base font-medium text-gray-900">
+                    {' '}
+                    Role{' '}
+                  </label>
+                  <div className="mt-2">
+
+                    <select className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+                      type="text"
+                      placeholder="Role"
+                      name="role"
+                      autoComplete='off'
+                      id='role'
+                      {...register("role",{
+                        required : "Select the Role"
+                      })}>
+                      <option value="user">user</option>
+                      <option value="officer">officer</option>
+                      {errors.user_email && <p className="text-red-500 errorMsg">{errors.user_email.message}</p>}
+                    </select>
+                  </div>
+                </div>
+
                 <div>
                   <label htmlFor="name" className="text-base font-medium text-gray-900">
                     {' '}
@@ -162,30 +186,30 @@ const Signup = () => {
                       <p className="text-red-500 errorMsg">{errors.user_name.message}</p>
                     )}
 
-                </div>
-                <div>
-                  <label htmlFor="email" className="text-base font-medium text-gray-900">
-                    {' '}
-                    Email address{' '}
-                  </label>
-                  <div className="mt-2">
-                    <input
-                      className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
-                      type="email"
-                      placeholder="Email"
-                      name="user_email"
-                      autoComplete='off'
-                      id='email'
-                      {...register("user_email", {
-                        required: "Email is required.",
-                        pattern: {
-                          value: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,
-                          message: "Email is not valid."
-                        }
-                      })}
-                    />
-                    {errors.user_email && <p className="text-red-500 errorMsg">{errors.user_email.message}</p>}
                   </div>
+                  <div>
+                    <label htmlFor="email" className="text-base font-medium text-gray-900">
+                      {' '}
+                      Email address{' '}
+                    </label>
+                    <div className="mt-2">
+                      <input
+                        className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+                        type="email"
+                        placeholder="Email"
+                        name="user_email"
+                        autoComplete='off'
+                        id='email'
+                        {...register("user_email", {
+                          required: "Email is required.",
+                          pattern: {
+                            value: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,
+                            message: "Email is not valid."
+                          }
+                        })}
+                      />
+                      {errors.user_email && <p className="text-red-500 errorMsg">{errors.user_email.message}</p>}
+                    </div>
                   </div>
                 </div>
                 <div>
@@ -212,7 +236,7 @@ const Signup = () => {
                     {errors.user_mobileNo && (
                       <p className="text-red-500 errorMsg">{errors.user_mobileNo.message}</p>
                     )}
-                    
+
                   </div>
                 </div>
                 <div>
@@ -291,7 +315,7 @@ const Signup = () => {
         </div>
       </div>
     </section>
-    )
+  )
 }
 
 export default Signup
