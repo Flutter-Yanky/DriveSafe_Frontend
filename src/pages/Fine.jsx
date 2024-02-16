@@ -9,7 +9,6 @@ const Fine = () => {
     const { userId } = useParams();
     const [Loading, setLoading] = useState(true)
     const [Access, setAccess] = useState(false);
-
     const [dl, setDl] = useState();
     const [rc, setRc] = useState();
     const [puc, setPuc] = useState(0);
@@ -32,6 +31,7 @@ const Fine = () => {
                 method: 'POST',
                 body: JSON.stringify(obj),
                 headers: {
+                    'Content-Type': 'application/json',
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
                 },
                 
@@ -158,7 +158,13 @@ const Fine = () => {
 
                                         </tbody>
                                     </table>
-                                    <button className='bg-gray-600 hover:bg-gray-400 mt-5 text-white font-bold py-2 px-4 rounded' onClick={applyFine}>Apply Fine</button>
+                                    {
+                                        totalFine != 0 ? 
+                                        <button className='bg-gray-600 hover:bg-gray-400 mt-5 text-white font-bold py-2 px-4 rounded' onClick={applyFine}>Apply Fine</button> 
+                                        :
+                                        <p className='text-xl mt-2'>No Fine</p>
+                                    }
+                                    
                                 </div>
                             </div>
 
