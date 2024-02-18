@@ -40,8 +40,6 @@ const Dlupload = () => {
                     setuploadTime(0);
                     setPercentage(100);
                     setprogressType("success")
-                    console.log(res.json());
-                    toast.success("File uploaded Successfully....");
                 })
                 .catch((error) => {
                     setprogressType("error")

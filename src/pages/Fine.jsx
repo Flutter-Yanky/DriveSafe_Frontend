@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react'
 import Navbar from '../components/Navbar';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Spinner from '../Components/Spinner';
 import toast from 'react-hot-toast';
 
 const Fine = () => {
 
+    const navigate = useNavigate();
     const { userId } = useParams();
     const [Loading, setLoading] = useState(true)
     const [Access, setAccess] = useState(false);
@@ -13,38 +14,76 @@ const Fine = () => {
     const [rc, setRc] = useState();
     const [puc, setPuc] = useState(0);
     const [totalFine, setTotalFine] = useState(0);
+    const [fine_today, setFine_today] = useState(false);
 
-    async function applyFine() {
-        
-        const obj = {
-            fine_dl : dl,
-            fine_rc : rc,
-            fine_puc : 0,
-            fine_insurance : 0,
-            fine_total : totalFine,
-            fine_status : false,
-            fined_user : userId,
-        }
 
-        try{
-            await fetch(`http://localhost:8000/api/v1/fineuser/${userId}`, {
-                method: 'POST',
-                body: JSON.stringify(obj),
+
+    async function checkOneTimeFine() {
+        try {
+            const res = await fetch(`http://localhost:8000/api/v1/userinfo/${userId}`, {
+                method: 'GET',
                 headers: {
-                    'Content-Type': 'application/json',
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
                 },
-                
             });
-        }
-        catch(err){
+
+            const data = await res.json();
+
+            setFine_today(data.array[0].fine_today);
+
+            console.log(fine_today);
+
+            console.log(data);
+
+        } catch (err) {
             console.log(err);
             console.log("Error aagya ji");
+
         }
     }
 
-    const API_URL = `http://localhost:8000/api/v1/fine/${userId}`;
 
+
+
+    async function applyFine() {
+
+        checkOneTimeFine(); 
+
+        if (fine_today == false) {
+
+            const obj = {
+                fine_dl: dl,
+                fine_rc: rc,
+                fine_puc: 0,
+                fine_insurance: 0,
+                fine_total: totalFine,
+                fine_status: false,
+                fined_user: userId,
+            }
+
+            try {
+                await fetch(`http://localhost:8000/api/v1/fineuser/${userId}`, {
+                    method: 'POST',
+                    body: JSON.stringify(obj),
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    },
+
+                });
+
+                navigate('/')
+            }
+            catch (err) {
+                console.log(err);
+                console.log("Error aagya ji");
+            }
+        }
+
+
+    }
+
+    const API_URL = `http://localhost:8000/api/v1/fine/${userId}`;
     async function fetchData() {
         setLoading(false);
         try {
@@ -81,6 +120,7 @@ const Fine = () => {
         if (localStorage.getItem('token') == null) {
             toast.error("Please Sign In First...");
         } else {
+            checkOneTimeFine();
             fetchData()
         }
     }, [])
@@ -159,12 +199,16 @@ const Fine = () => {
                                         </tbody>
                                     </table>
                                     {
-                                        totalFine != 0 ? 
-                                        <button className='bg-gray-600 hover:bg-gray-400 mt-5 text-white font-bold py-2 px-4 rounded' onClick={applyFine}>Apply Fine</button> 
-                                        :
-                                        <p className='text-xl mt-2'>No Fine</p>
+                                        totalFine != 0 ?
+
+                                            fine_today != true ?
+                                                <button className='bg-gray-600 hover:bg-gray-400 mt-5 text-white font-bold py-2 px-4 rounded' onClick={applyFine}>Apply Fine</button>
+                                                :
+                                                <p className='text-xl mt-2'>For Today you already have fined</p>
+                                            :
+                                            <p className='text-xl mt-2'>No Fine</p>
                                     }
-                                    
+
                                 </div>
                             </div>
 

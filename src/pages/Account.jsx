@@ -15,21 +15,27 @@ const Account = () => {
   const [loading, setLoading] = useState(false);
   const [dlStatus, setdlStatus] = useState();
   const [rcStatus, setrcStatus] = useState();
-  const [toggle,settoggle] = useState(false);
-  const [url,setUrl] = useState()
+  const [toggle, settoggle] = useState(false);
+  const [url, setUrl] = useState()
+  const [role,setRole] = useState('user');
 
   const val = `http://localhost:5173/fine/${localStorage.getItem('id')}`;
-  const checkQr = ()=>{
+  const checkQr = () => {
     settoggle(!toggle)
     setUrl(val)
   }
 
-  const copyCode =()=>{
+  const scanCode = () => {
+    navigate(`/scanqrcode`)
+  }
+
+
+  const copyCode = () => {
     copy(val);
     toast.success(`You have copied url`);
   }
-  
-  
+
+
   const logout = () => {
     localStorage.clear();
     window.location.href = "/";
@@ -41,7 +47,7 @@ const Account = () => {
 
   const API_URL = `http://localhost:8000/api/v1/userinfo/${id}`;
 
-  function fine_history(){
+  function fine_history() {
     navigate("/fine_history");
   }
 
@@ -58,6 +64,9 @@ const Account = () => {
 
       const data = await res.json();
 
+      console.log(data.array[0]);
+      console.log(data.array[0].fine_today);
+
       let { status } = data.array[0].user_dl_status
 
       setdlStatus(status);
@@ -66,7 +75,7 @@ const Account = () => {
       setrcStatus(status2)
 
       setdata(data.array[0]);
-
+      setRole(data.array[0].role)
     }
     catch (error) {
       console.log(error);
@@ -83,7 +92,7 @@ const Account = () => {
     } else {
       fetchData()
     }
-  },[navigate])
+  }, [navigate])
 
 
   return (
@@ -148,7 +157,12 @@ const Account = () => {
                   </div>
 
                   {/* 4 */}
-                  <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+
+                  {
+                    role == "officer" ?
+                    <div> </div> 
+                    :
+                    <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                     <dt className="text-sm font-medium text-gray-500">
                       Driving license
                     </dt>
@@ -171,8 +185,14 @@ const Account = () => {
                     </dd>
                   </div>
 
+                      }
+
                   {/* 5 */}
-                  <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+
+                  {
+                    role == "officer" ? <div></div>
+                    :
+                    <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                     <dt className="text-sm font-medium text-gray-500">
                       Rc Book
                     </dt>
@@ -180,24 +200,29 @@ const Account = () => {
 
                       <div className='flex justify-start'>
                         <div>
-                          
-                          {
-                          rcStatus ? <div>True</div>
-                            :
-                            <div className='flex justify-start'>
-                              <div>false</div>
-                              <Link to="/rcupload" className='mx-5'>
-                                <img src={linkimg} alt="" width={12} height={12} />
-                              </Link>
-                            </div>
 
-                        }
+                          {
+                            rcStatus ? <div>True</div>
+                              :
+                              <div className='flex justify-start'>
+                                <div>false</div>
+                                <Link to="/rcupload" className='mx-5'>
+                                  <img src={linkimg} alt="" width={12} height={12} />
+                                </Link>
+                              </div>
+
+                          }
                         </div>
 
                       </div>
 
                     </dd>
                   </div>
+                  }
+
+                  
+                  
+                  
 
                   {/* 6 */}
                   <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
@@ -209,41 +234,59 @@ const Account = () => {
                     </dd>
                   </div>
 
-                
-
+                 
                   {/* 8 */}
 
-                  <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                  {
+                    role == "officer" ?
+                    <div></div>
+                    :
+                    <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                     <dt className="text-sm font-medium text-gray-500">
-                       Generate Qr code
+                      Generate Qr code
                     </dt>
                     <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded" onClick={checkQr}>QR code</button> 
+                      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded" onClick={checkQr}>QR code</button>
 
                       {
-                        toggle ? 
-                        <div>
-                          <QRCode  className="my-3" value={url}>  </QRCode>
-                          <div className='flex text-sm text-teal-70 '>
-                            <p className=''></p>
+                        toggle ?
+                          <div>
+                            <QRCode className="my-3" value={url}>  </QRCode>
+                            <div className='flex text-sm text-teal-70 '>
+                              <p className=''></p>
+                            </div>
+                            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded" onClick={copyCode}>Copy URL</button>
                           </div>
-                          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded" onClick={copyCode}>Copy URL</button> 
-                        </div>  
-                         : null
-                        
+                          : null
+
                       }
-                      
+
                     </dd>
                   </div>
 
+                  }
+
+                
+
+
 
                   <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+
+                    {
+                      role == "officer" ?
+                      <div>
+                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border  border-blue-700 rounded" onClick={scanCode}>Scan QR Code</button>
+                        
+                      </div> : <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded"
+                      onClick={fine_history}>Fine History</button>
+
+                    }
                     <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded"
                       onClick={logout}>
                       Logout
                     </button>
-                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded"
-                      onClick={fine_history}>Fine History</button>
+                    
+                    
                   </div>
                 </dl>
               </div>
