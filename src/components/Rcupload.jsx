@@ -3,8 +3,7 @@ import Navbar from './Navbar'
 import { useNavigate } from 'react-router-dom';
 "use client";
 import { Upload } from "keep-react";
-import toast from 'react-hot-toast';
-
+import toast, { Toaster } from 'react-hot-toast';
 
 const Rcupload = () => {
 
@@ -15,6 +14,8 @@ const Rcupload = () => {
     const [uploadTime, setuploadTime] = useState(10);
     const [progressType, setprogressType] = useState("pending")
     const [showProgressBar, setshowProgressBar] = useState(false)
+    const [Error, setError] = useState("");
+    const [success, setSuccess] = useState("");
 
     const handleFileChange = async (event) => {
         const file = event.target.files[0];
@@ -28,7 +29,7 @@ const Rcupload = () => {
             setFileName(file.name);
             setuploadTime(5)
             setPercentage(50)
-            
+
             await fetch('http://localhost:8000/api/v1/upload_rc', {
                 method: 'POST',
                 body: data,
@@ -36,16 +37,30 @@ const Rcupload = () => {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
                 },
             })
-                .then(() => {
-                    setuploadTime(0);
-                    setPercentage(100);
-                    setprogressType("success")
-                    toast.success("File uploaded Successfully....");
-                })
-                .catch((error) => {
+            .then((res) => {
+                return res.json();
+            })
+            .then((res) =>{
+                console.log(res);
+                setuploadTime(0);
+                setuploadTime(50);
+                if(res.success == false){
                     setprogressType("error")
-                    console.log(error);
-                })
+                    setError(res.message);
+                    toast.error(`${res.message}`);
+                    
+                }else{
+                    setPercentage(100);
+                    setSuccess(res.message);
+                    toast.success(`Driving License uploaded successfully `);
+                    setprogressType("success")
+                }
+            })
+            .catch((error) => {
+                setprogressType("error")
+                console.log(error);
+                toast.error("File uploading failed....");
+            })
         }
     }
 
@@ -79,8 +94,28 @@ const Rcupload = () => {
                         id="upload"
                     />
 
+                    {
+                        Error
+                        ?
+                        <p className='text-red-500 ml-5 font-semibold'>Message : {Error}</p>
+                        :
+                        <></>
+                    }
+
+                    {
+                        success
+                        ?
+                        <p className='text-green-500 ml-5 font-semibold'>Message : {success}</p>
+                        :
+                        <></>
+                    }
+
                 </div>
             </div>
+            <Toaster
+                position="bottom-center"
+                reverseOrder={false}
+            />
         </div>
 
 
