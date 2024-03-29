@@ -3,7 +3,8 @@ import Navbar from './Navbar'
 import { useNavigate } from 'react-router-dom';
 "use client";
 import { Upload } from "keep-react";
-import toast from 'react-hot-toast';
+
+import toast, { Toaster } from 'react-hot-toast';
 
 const Dlupload = () => {
 
@@ -14,12 +15,13 @@ const Dlupload = () => {
         const [uploadTime,setuploadTime] = useState(10);
         const [progressType,setprogressType] = useState("pending")
         const [showProgressBar,setshowProgressBar] = useState(false)
-      
+        const [Error,setError] = useState("");
+        const [success,setSuccess] = useState("");
 
         const handleFileChange = async(event) => {
             const file = event.target.files[0];
             const data = new FormData();
-            data.append("document", file);
+            data.append("document", file);  
             setshowProgressBar(true)
             setuploadTime(10)
             setPercentage(10)
@@ -36,10 +38,21 @@ const Dlupload = () => {
                     },
                 })
                 .then((res) => {
-                    res.json();
+                    return res.json();
+                }).then((res) =>{
                     setuploadTime(0);
-                    setPercentage(100);
-                    setprogressType("success")
+                    setuploadTime(50);
+                    if(res.success == false){
+                        setprogressType("error")
+                        setError(res.message);
+                        toast.error(`${res.message}`);
+                        
+                    }else{
+                        setPercentage(100);
+                        setSuccess(res.message);
+                        toast.success(`Driving License uploaded successfully `);
+                        setprogressType("success")
+                    }
                 })
                 .catch((error) => {
                     setprogressType("error")
@@ -75,9 +88,28 @@ const Dlupload = () => {
                         uploadTime={`${uploadTime} seconds left`}
                         id="upload"
                     />
+                    {
+                        Error 
+                        ? 
+                        <p className='text-red-500 ml-5 font-semibold'>Message : {Error}</p>
+                        :
+                        <></>
+                    }
+
+                    {
+                        success
+                        ?
+                        <p className='text-green-500 ml-5 font-semibold'>Message : {success}</p>
+                        :
+                        <></>
+                    }
 
                 </div>
             </div>
+            <Toaster
+                position="bottom-center"
+                reverseOrder={false}
+                />
         </div>
 
 
