@@ -5,6 +5,11 @@ import Account from './pages/Account'
 import Home from './pages/Home'
 import Dlupload from './components/Dlupload'
 import Rcupload from './components/Rcupload'
+
+import PucUpload from './components/PucUpload'
+import InsurUpload from './components/InsurUpload'
+import Docentral from './components/Docentral'
+
 import { Route, Routes } from "react-router-dom"
 import Fine from "./pages/Fine"
 import About from "./pages/About"
@@ -24,7 +29,11 @@ function App() {
         <Route path='account' element={<Account/>}></Route>
         <Route path='dlupload' element={<Dlupload/>}></Route>
         <Route path='rcupload' element={<Rcupload/>}></Route>
+        <Route path='pucupload' element={<PucUpload/>}></Route>
+        <Route path='insurupload' element={<InsurUpload/>}></Route>
         <Route path='about' element={<About/>}></Route>
+        
+        <Route path='docentral' element={<Docentral/>}></Route>
         <Route path='contact' element={<Contact/>}></Route>
         <Route path='fine/:userId' element={<Fine/>}></Route>
         <Route path='fine_history' element={<Fine_history/>}></Route>

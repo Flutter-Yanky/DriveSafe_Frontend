@@ -81,7 +81,7 @@ const Fine_history = () => {
                                         {item.fine_puc}
                                     </td>
                                     <td className="px-6 py-4">
-                                        {item.fine_insurance}
+                                        {item.fine_insur}
                                     </td>
                                     <td className="px-6 py-4">
                                         {item.fine_total}

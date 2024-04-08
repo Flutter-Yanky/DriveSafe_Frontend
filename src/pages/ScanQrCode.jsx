@@ -5,7 +5,7 @@ const ScanQrCode = () => {
 
     const handleScan = (value) => {
         alert("Qr code Scanned and it will redirect you to the fine page of user.")
-        window.location.href = `fine/${localStorage.getItem('id')}`
+        window.location.href = value
         console.log({ value })
     }
 

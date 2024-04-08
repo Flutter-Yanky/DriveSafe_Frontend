@@ -2,9 +2,28 @@
 import Navbar from '../components/Navbar'
 import { LayoutGrid } from 'lucide-react'
 import img from '../assets/driver-mobile.png'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 
 const Home = () => {
+  const navigate = useNavigate()
+
+  const [loggedIn, setloggedIn] = useState(false);
+
+  const checkuserLogin = () => {
+    if (localStorage.getItem("name")) {
+      setloggedIn(true);
+    }
+    else {
+      setloggedIn(false);
+    }
+  }
+
+  useEffect(() => {
+    checkuserLogin();
+  },[navigate]);
+
+  
   return (
     <div>
       <Navbar />
@@ -28,7 +47,12 @@ const Home = () => {
               </span>
               </p>
                 <div>
-                  <button className="bg-[#1aff19] font-display rounded-3xl w-48 h-12 mt-6"><Link to="/signin">Start Now</Link></button>
+                  {
+                    loggedIn ?
+                    <button className="bg-[#1aff19] font-display rounded-3xl w-48 h-12 mt-6"><Link to="/docentral">Start Now</Link></button>
+                    :
+                    <button className="bg-[#1aff19] font-display rounded-3xl w-48 h-12 mt-6"><Link to="/signin">Start Now</Link></button>
+                  }
                 </div>
               </div>
           </div>

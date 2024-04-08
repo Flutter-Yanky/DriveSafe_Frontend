@@ -12,7 +12,8 @@ const Fine = () => {
     const [Access, setAccess] = useState(false);
     const [dl, setDl] = useState();
     const [rc, setRc] = useState();
-    const [puc, setPuc] = useState(0);
+    const [puc, setPuc] = useState();
+    const [insur, setInsur] = useState();
     const [totalFine, setTotalFine] = useState(0);
     const [fine_today, setFine_today] = useState(false);
 
@@ -20,7 +21,7 @@ const Fine = () => {
 
     async function checkOneTimeFine() {
         try {
-            const res = await fetch(`http://localhost:8000/api/v1/userinfo/${userId}`, {
+            const res = await fetch(`https://drivesafe-backend.onrender.com/api/v1/userinfo/${userId}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -32,8 +33,6 @@ const Fine = () => {
             setFine_today(data.array[0].fine_today);
 
             console.log(fine_today);
-
-            console.log(data);
 
         } catch (err) {
             console.log(err);
@@ -54,15 +53,15 @@ const Fine = () => {
             const obj = {
                 fine_dl: dl,
                 fine_rc: rc,
-                fine_puc: 0,
-                fine_insurance: 0,
+                fine_puc: puc,
+                fine_insur: insur,
                 fine_total: totalFine,
                 fine_status: false,
                 fined_user: userId,
             }
 
             try {
-                await fetch(`http://localhost:8000/api/v1/fineuser/${userId}`, {
+                await fetch(`https://drivesafe-backend.onrender.com/api/v1/fineuser/${userId}`, {
                     method: 'POST',
                     body: JSON.stringify(obj),
                     headers: {
@@ -83,7 +82,7 @@ const Fine = () => {
 
     }
 
-    const API_URL = `http://localhost:8000/api/v1/fine/${userId}`;
+    const API_URL = `https://drivesafe-backend.onrender.com/api/v1/fine/${userId}`;
     async function fetchData() {
         setLoading(false);
         try {
@@ -101,7 +100,8 @@ const Fine = () => {
                 setAccess(true);
                 setDl(data.data.fine_dl);
                 setRc(data.data.fine_rc);
-                setPuc(0);
+                setPuc(data.data.fine_puc);
+                setInsur(data.data.fine_insur)
                 setTotalFine(data.data.totalFine);
             }
             else {
@@ -188,6 +188,20 @@ const Fine = () => {
                                                     {puc}
                                                 </td>
                                             </tr>
+
+                                            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                                <td className="px-6 py-4">
+                                                    4
+                                                </td>
+                                                <td className="px-6 py-4">
+                                                    Insurance
+                                                </td>
+                                                <td className="px-6 py-4">
+                                                    {insur}
+                                                </td>
+                                            </tr>
+
+
                                             <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                                 <td colSpan={3} className="px-6 py-4 text-center    ">
                                                     Total : {totalFine}

@@ -6,7 +6,7 @@ const Signup = () => {
   const navigate = useNavigate();
 
   const createUser = async (data) => {
-    await fetch('http://localhost:8000/api/v1/signup', {
+    await fetch('https://drivesafe-backend.onrender.com/api/v1/signup', {
       method: 'POST',
       body: JSON.stringify(data),
       headers: {

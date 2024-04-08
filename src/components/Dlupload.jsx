@@ -29,7 +29,7 @@ const Dlupload = () => {
                 setuploadTime(5)
                 setPercentage(50)
                 
-                await fetch('http://localhost:8000/api/v1/upload_dl', {
+                await fetch('https://drivesafe-backend.onrender.com/api/v1/upload_dl', {
                     method: 'POST',
                     body: data,
                     headers: {

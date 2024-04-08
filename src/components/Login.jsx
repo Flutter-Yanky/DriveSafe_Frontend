@@ -12,7 +12,7 @@ const Login = () => {
   headers.append('Access-Control-Allow-Origin', "http://localhost:5173");
 
   const LoginUser = async (data) => {
-    await fetch('http://localhost:8000/api/v1/login', {
+    await fetch('https://drivesafe-backend.onrender.com/api/v1/login', {
       method: 'POST',
       body: JSON.stringify(data),
       headers: headers,

@@ -8,6 +8,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import QRCode from "react-qr-code";
 import copy from "copy-to-clipboard";
 
+
 const Account = () => {
 
   const navigate = useNavigate();
@@ -15,6 +16,8 @@ const Account = () => {
   const [loading, setLoading] = useState(false);
   const [dlStatus, setdlStatus] = useState();
   const [rcStatus, setrcStatus] = useState();
+  const [pucStatus, setpucStatus] = useState();
+  const [insurStatus, setinsurStatus] = useState();
   const [toggle, settoggle] = useState(false);
   const [url, setUrl] = useState()
   const [role,setRole] = useState('user');
@@ -45,7 +48,7 @@ const Account = () => {
 
   const id = localStorage.getItem('id');
 
-  const API_URL = `http://localhost:8000/api/v1/userinfo/${id}`;
+  const API_URL = `https://drivesafe-backend.onrender.com/api/v1/userinfo/${id}`;
 
   function fine_history() {
     navigate("/fine_history");
@@ -68,11 +71,16 @@ const Account = () => {
       console.log(data.array[0].fine_today);
 
       let { status } = data.array[0].user_dl_status
-
       setdlStatus(status);
 
       let status2 = data.array[0].user_rc_status.status
       setrcStatus(status2)
+
+      let status3 = data.array[0].user_puc_status.status
+      setpucStatus(status3)
+
+      let status4 = data.array[0].user_insur_status.status
+      setinsurStatus(status4)
 
       setdata(data.array[0]);
       setRole(data.array[0].role)
@@ -220,6 +228,69 @@ const Account = () => {
                   </div>
                   }
 
+                  {
+                    role == "officer" ? <div></div>
+                    :
+                    <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <dt className="text-sm font-medium text-gray-500">
+                      P.U.C.
+                    </dt>
+                    <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+
+                      <div className='flex justify-start'>
+                        <div>
+
+                          {
+                            pucStatus ? <div>True</div>
+                              :
+                              <div className='flex justify-start'>
+                                <div>false</div>
+                                <Link to="/pucupload" className='mx-5'>
+                                  <img src={linkimg} alt="" width={12} height={12} />
+                                </Link>
+                              </div>
+
+                          }
+                        </div>
+
+                      </div>
+
+                    </dd>
+                  </div>
+                  }
+
+
+                  {
+                    role == "officer" ? <div></div>
+                    :
+                    <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <dt className="text-sm font-medium text-gray-500">
+                      Insurance
+                    </dt>
+                    <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+
+                      <div className='flex justify-start'>
+                        <div>
+
+                          {
+                            insurStatus ? <div>True</div>
+                              :
+                              <div className='flex justify-start'>
+                                <div>false</div>
+                                <Link to="/insurupload" className='mx-5'>
+                                  <img src={linkimg} alt="" width={12} height={12} />
+                                </Link>
+                              </div>
+
+                          }
+                        </div>
+
+                      </div>
+
+                    </dd>
+                  </div>
+                  }
+
                   
                   
                   
@@ -300,3 +371,4 @@ const Account = () => {
 }
 
 export default Account
+

@@ -7,16 +7,13 @@ import { useNavigate } from 'react-router-dom';
 const Contact = () => {
 
     const navigate = useNavigate();
-    const [isMenuOpen, setIsMenuOpen] = useState(false)
     const [loading, setLoading] = useState(false);
 
-    const toggleMenu = () => {
-        setIsMenuOpen(!isMenuOpen)
-    }
+   
 
     const sendMailtous = async (data) => {
 
-        await fetch(' https://mycollegeapi.onrender.com/api/v1/contact', {
+        await fetch(' https://drivesafe-backend.onrender.com/api/v1/contact', {
             method: 'POST',
             body: JSON.stringify(data),
             headers: {
