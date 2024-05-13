@@ -13,7 +13,7 @@ const Contact = () => {
 
     const sendMailtous = async (data) => {
 
-        await fetch(' https://drivesafe-backend.onrender.com/api/v1/contact', {
+        await fetch(' http://localhost:8000/api/v1/contact', {
             method: 'POST',
             body: JSON.stringify(data),
             headers: {

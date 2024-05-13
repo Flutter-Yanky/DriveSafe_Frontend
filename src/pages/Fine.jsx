@@ -21,7 +21,7 @@ const Fine = () => {
 
     async function checkOneTimeFine() {
         try {
-            const res = await fetch(`https://drivesafe-backend.onrender.com/api/v1/userinfo/${userId}`, {
+            const res = await fetch(`http://localhost:8000/api/v1/userinfo/${userId}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -31,8 +31,10 @@ const Fine = () => {
             const data = await res.json();
 
             setFine_today(data.array[0].fine_today);
-
-            console.log(fine_today);
+            
+           
+      
+           
 
         } catch (err) {
             console.log(err);
@@ -48,6 +50,7 @@ const Fine = () => {
 
         checkOneTimeFine(); 
 
+        {{fine_today}}
         if (fine_today == false) {
 
             const obj = {
@@ -61,7 +64,7 @@ const Fine = () => {
             }
 
             try {
-                await fetch(`https://drivesafe-backend.onrender.com/api/v1/fineuser/${userId}`, {
+                await fetch(`http://localhost:8000/api/v1/fineuser/${userId}`, {
                     method: 'POST',
                     body: JSON.stringify(obj),
                     headers: {
@@ -82,7 +85,8 @@ const Fine = () => {
 
     }
 
-    const API_URL = `https://drivesafe-backend.onrender.com/api/v1/fine/${userId}`;
+    const API_URL = `http://localhost:8000/api/v1/fine/${userId}`;
+
     async function fetchData() {
         setLoading(false);
         try {
@@ -212,6 +216,8 @@ const Fine = () => {
 
                                         </tbody>
                                     </table>
+
+                                    {}
                                     {
                                         totalFine != 0 ?
 
@@ -233,7 +239,7 @@ const Fine = () => {
                         </div>
                     :
                     <div className='flex justify-center'>
-                        <h2 className='text-2xl text-center my-8 mx-10'>Please Wait.... </h2>
+                      
                         <Spinner />
                     </div>
             }

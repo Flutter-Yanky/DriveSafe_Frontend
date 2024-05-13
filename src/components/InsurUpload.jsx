@@ -28,7 +28,7 @@ const InsurUpload = () => {
             setuploadTime(5);
             setPercentage(50);
 
-            await fetch('https://drivesafe-backend.onrender.com/api/v1/upload_insur', {
+            await fetch('http://localhost:8000/api/v1/upload_insur', {
                 method: 'POST',
                 body: data,
                 headers: {

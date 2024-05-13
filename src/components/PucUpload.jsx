@@ -29,7 +29,7 @@ const PucUpload = () => {
             setPercentage(50);
 
             try {
-                const res = await fetch('https://drivesafe-backend.onrender.com/api/v1/upload_puc', {
+                const res = await fetch('http://localhost:8000/api/v1/upload_puc', {
                     method: 'POST',
                     body: data,
                     headers: {
