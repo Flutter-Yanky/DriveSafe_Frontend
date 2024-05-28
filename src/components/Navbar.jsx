@@ -22,35 +22,33 @@ const Navbar = () => {
   }
 
 
-  const id = localStorage.getItem('id');
-  const pushNotifications = async () => {
+  // const id = localStorage.getItem('id');
+  // const pushNotifications = async () => {
 
 
-    try {
-      const res = await fetch(`http://localhost:8000/api/v1/userinfo/${id}`, {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        },
-      })
-      const data = await res.json();
-      notifications = data.array[0].notification;
+  //   try {
+  //     const res = await fetch(`http://localhost:8000/api/v1/userinfo/${id}`, {
+  //       method: 'GET',
+  //       headers: {
+  //         'Authorization': `Bearer ${localStorage.getItem('token')}`
+  //       },
+  //     })
+  //     const data = await res.json();
+  //     notifications = data.array[0].notification;
 
-    }
-    catch (error) {
-      console.log(error);
-      console.log("Error occurred.");
-    }
+  //   }
+  //   catch (error) {
+  //     console.log(error);
+  //     console.log("Error occurred.");
+  //   }
 
-  }
+  // }
 
 
 
   useEffect(() => {
     checkuserLogin();
-    pushNotifications();
-    console.log(notifications);
-
+    // pushNotifications();
   }, [navigate]);
 
   return (
@@ -59,7 +57,8 @@ const Navbar = () => {
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2 sm:px-6 lg:px-8">
         <Link to="/">
           <div className="inline-flex items-center space-x-2">
-            <span className="font-bold">DriveSafe</span>
+
+            <h1 className='text-2xl font-serif font-medium'><span className='text-[#1aff19]'>D</span>rive<span className='text-[#1aff19]'>S</span>afe</h1>
           </div>
         </Link>
         <div className="hidden grow items-start lg:flex">

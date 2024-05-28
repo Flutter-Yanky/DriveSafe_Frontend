@@ -1,14 +1,16 @@
-import Navbar from '../components/Navbar';
-import { useEffect, useState } from 'react';
+import Navbar from '../components/Navbar'
+import { useEffect, useState } from 'react'
 import Spinner from "../Components/Spinner";
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import linkimg from '../assets/link.png';
+import linkimg from '../assets/link.png'
 import toast, { Toaster } from 'react-hot-toast';
 import QRCode from "react-qr-code";
 import copy from "copy-to-clipboard";
 
+
 const Account = () => {
+
   const navigate = useNavigate();
   const [data, setdata] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -21,28 +23,32 @@ const Account = () => {
   const [role,setRole] = useState('user');
 
   const val = `http://localhost:5173/fine/${localStorage.getItem('id')}`;
-
   const checkQr = () => {
-    settoggle(!toggle);
-    setUrl(val);
+    settoggle(!toggle)
+    setUrl(val)
   }
 
   const scanCode = () => {
-    navigate(`/scanqrcode`);
+    navigate(`/scanqrcode`)
   }
+
 
   const copyCode = () => {
     copy(val);
     toast.success(`You have copied url`);
   }
 
+
   const logout = () => {
     localStorage.clear();
     window.location.href = "/";
   }
 
+
+
   const id = localStorage.getItem('id');
-  const API_URL = `http://localhost:8000/api/v1/userinfo/${id}`;
+
+  const API_URL = `https://drivesafe-backend.onrender.com/api/v1/userinfo/${id}`;
 
   function fine_history() {
     navigate("/fine_history");
@@ -61,24 +67,24 @@ const Account = () => {
 
       const data = await res.json();
 
-      let { status } = data.array[0].user_dl_status;
+      let { status } = data.array[0].user_dl_status
       setdlStatus(status);
 
-      let status2 = data.array[0].user_rc_status.status;
-      setrcStatus(status2);
+      let status2 = data.array[0].user_rc_status.status
+      setrcStatus(status2)
 
-      let status3 = data.array[0].user_puc_status.status;
-      setpucStatus(status3);
+      let status3 = data.array[0].user_puc_status.status
+      setpucStatus(status3)
 
-      let status4 = data.array[0].user_insur_status.status;
-      setinsurStatus(status4);
+      let status4 = data.array[0].user_insur_status.status
+      setinsurStatus(status4)
 
       setdata(data.array[0]);
-      setRole(data.array[0].role);
+      setRole(data.array[0].role)
     }
     catch (error) {
       console.log(error);
-      console.log("Error occurred.");
+      console.log("Error aagya ji");
       setdata([]);
     }
     setLoading(false);
@@ -89,201 +95,277 @@ const Account = () => {
       toast.error("Please Sign In First...");
       navigate('/signin');
     } else {
-      fetchData();
+      fetchData()
     }
-  }, [navigate]);
+  }, [navigate])
+
 
   return (
-    <div>
+    <div className="bg-cream-900">
       <Navbar />
+
       <div className='flex justify-center my-8'>
-        {loading ? 
-          <Spinner /> 
-          :
-          <div className="bg-white max-w-2xl shadow overflow-hidden sm:rounded-lg">
-            <div className="px-4 py-5 sm:px-6">
-              <h3 className="text-lg leading-6 font-medium text-gray-900">
-                User details
-              </h3>
-              <p className="mt-1 max-w-2xl text-sm text-gray-500">
-                Details and information about the user.
-              </p>
-            </div>
+        {
 
-            <div className="border-t border-gray-200">
-              <dl>
-                {/* User Id */}
-                <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                  <dt className="text-sm font-medium text-gray-500">
-                    User Id
-                  </dt>
-                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                    {data._id}
-                  </dd>
-                </div>
+          loading ? <Spinner />
+            :
+            <div className="bg-[#74cb74] max-w-2xl shadow-2xl overflow-hidden sm:rounded-lg border border-black">
+              <div className="px-4 py-5 sm:px-6">
+                <h3 className="text-lg leading-6 font-medium text-gray-900">
+                  User details
+                </h3>
+                <p className="mt-1 max-w-2xl text-sm text-white">
+                  Details and informations about user.
+                </p>
+              </div>
 
-                {/* Full name */}
-                <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                  <dt className="text-sm font-medium text-gray-500">
-                    Full name
-                  </dt>
-                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                    {data.user_name}
-                  </dd>
-                </div>
+              <div className="border-t border-black">
+                <dl>
+                  {/* 0 */}
+                  <div className="bg-white px-4 py-5 border-black sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <dt className="text-sm font-medium text-gray-500">
+                      User Id
+                    </dt>
+                    <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                      {data._id}
+                    </dd>
+                  </div>
 
-                {/* Email address */}
-                <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                  <dt className="text-sm font-medium text-gray-500">
-                    Email address
-                  </dt>
-                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                    {data.user_email}
-                  </dd>
-                </div>
+                  {/* 1 */}
+                  <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <dt className="text-sm font-medium text-gray-500">
+                      Full name
+                    </dt>
+                    <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                      {data.user_name}
+                    </dd>
+                  </div>
 
-                {/* Mobile No */}
-                <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                  <dt className="text-sm font-medium text-gray-500">
-                    Mobile No
-                  </dt>
-                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                    {data.user_mobileNo}
-                  </dd>
-                </div>
+                  {/* 2 */}
+                  <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <dt className="text-sm font-medium text-gray-500">
+                      Email address
+                    </dt>
+                    <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                      {data.user_email}
+                    </dd>
+                  </div>
 
-                {/* Driving license */}
-                {role !== "officer" && (
-                  <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                  {/* 3 */}
+                  <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <dt className="text-sm font-medium text-gray-500">
+                      Mobile No
+                    </dt>
+                    <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                      {data.user_mobileNo}
+                    </dd>
+                  </div>
+
+                  {/* 4 */}
+
+                  {
+                    role == "officer" ?
+                    <div> </div> 
+                    :
+                    <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                     <dt className="text-sm font-medium text-gray-500">
                       Driving license
                     </dt>
                     <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+
                       <div className='flex justify-start'>
-                        {dlStatus ? "True" : (
-                          <div className='flex justify-start'>
-                            <div>false</div>
-                            <Link to="/dlupload" className='mx-5'>
-                              <img src={linkimg} alt="" width={12} height={12} />
-                            </Link>
-                          </div>
-                        )}
+
+                        {
+                          dlStatus ? <div>True</div>
+                            :
+                            <div className='flex justify-start'>
+                              <div>false</div>
+                              <Link to="/dlupload" className='mx-5'>
+                                <img src={linkimg} alt="" width={12} height={12} />
+                              </Link>
+                            </div>
+
+                        }
                       </div>
                     </dd>
                   </div>
-                )}
 
-                {/* Rc Book */}
-                {role !== "officer" && (
-                  <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                      }
+
+                  {/* 5 */}
+
+                  {
+                    role == "officer" ? <div></div>
+                    :
+                    <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                     <dt className="text-sm font-medium text-gray-500">
                       Rc Book
                     </dt>
                     <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+
                       <div className='flex justify-start'>
-                        {rcStatus ? "True" : (
-                          <div className='flex justify-start'>
-                            <div>false</div>
-                            <Link to="/rcupload" className='mx-5'>
-                              <img src={linkimg} alt="" width={12} height={12} />
-                            </Link>
-                          </div>
-                        )}
+                        <div>
+
+                          {
+                            rcStatus ? <div>True</div>
+                              :
+                              <div className='flex justify-start'>
+                                <div>false</div>
+                                <Link to="/rcupload" className='mx-5'>
+                                  <img src={linkimg} alt="" width={12} height={12} />
+                                </Link>
+                              </div>
+
+                          }
+                        </div>
+
                       </div>
+
                     </dd>
                   </div>
-                )}
+                  }
 
-                {/* P.U.C. */}
-                {role !== "officer" && (
-                  <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                  {
+                    role == "officer" ? <div></div>
+                    :
+                    <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                     <dt className="text-sm font-medium text-gray-500">
                       P.U.C.
                     </dt>
                     <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+
                       <div className='flex justify-start'>
-                        {pucStatus ? "True" : (
-                          <div className='flex justify-start'>
-                            <div>false</div>
-                            <Link to="/pucupload" className='mx-5'>
-                              <img src={linkimg} alt="" width={12} height={12} />
-                            </Link>
-                          </div>
-                        )}
+                        <div>
+
+                          {
+                            pucStatus ? <div>True</div>
+                              :
+                              <div className='flex justify-start'>
+                                <div>false</div>
+                                <Link to="/pucupload" className='mx-5'>
+                                  <img src={linkimg} alt="" width={12} height={12} />
+                                </Link>
+                              </div>
+
+                          }
+                        </div>
+
                       </div>
+
                     </dd>
                   </div>
-                )}
+                  }
 
-                {/* Insurance */}
-                {role !== "officer" && (
-                  <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+
+                  {
+                    role == "officer" ? <div></div>
+                    :
+                    <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                     <dt className="text-sm font-medium text-gray-500">
                       Insurance
                     </dt>
                     <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+
                       <div className='flex justify-start'>
-                        {insurStatus ? "True" : (
-                          <div className='flex justify-start'>
-                            <div>false</div>
-                            <Link to="/insurupload" className='mx-5'>
-                              <img src={linkimg} alt="" width={12} height={12} />
-                            </Link>
-                          </div>
-                        )}
+                        <div>
+
+                          {
+                            insurStatus ? <div>True</div>
+                              :
+                              <div className='flex justify-start'>
+                                <div>false</div>
+                                <Link to="/insurupload" className='mx-5'>
+                                  <img src={linkimg} alt="" width={12} height={12} />
+                                </Link>
+                              </div>
+
+                          }
+                        </div>
+
                       </div>
+
                     </dd>
                   </div>
-                )}
+                  }
 
-                {/* About */}
-                <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                  <dt className="text-sm font-medium text-gray-500">
-                    About
-                  </dt>
-                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                    {data.user_about}
-                  </dd>
-                </div>
+                  
+                  
+                  
 
-                {/* Generate Qr code */}
-                {role !== "officer" && (
-                  <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                  {/* 6 */}
+                  <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <dt className="text-sm font-medium text-gray-500">
+                      About
+                    </dt>
+                    <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                      {data.user_about}
+                    </dd>
+                  </div>
+
+                 
+                  {/* 8 */}
+
+                  {
+                    role == "officer" ?
+                    <div></div>
+                    :
+                    <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                     <dt className="text-sm font-medium text-gray-500">
                       Generate Qr code
                     </dt>
                     <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded" onClick={checkQr}>QR code</button>
-                      {toggle && (
-                        <div>
-                          <QRCode className="my-3" value={url} />
-                          <div className='flex text-sm text-teal-700'>
-                            <p className=''></p>
+                      <button className="bg-[#74cb74] hover:bg-[#a2cfa2] text-white font-bold py-2 px-4 border border-black rounded" onClick={checkQr}>QR code</button>
+
+                      {
+                        toggle ?
+                          <div>
+                            <QRCode className="my-3" value={url}>  </QRCode>
+                            <div className='flex text-sm text-teal-70 '>
+                              <p className=''></p>
+                            </div>
+                            <button className="bg-[#74cb74] hover:bg-gray-700 text-white font-bold py-2 px-4 border border-black rounded" onClick={copyCode}>Copy URL</button>
                           </div>
-                          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded" onClick={copyCode}>Copy URL</button>
-                        </div>
-                      )}
+                          : null
+
+                      }
+
                     </dd>
                   </div>
-                )}
 
-                {/* Scan QR Code */}
-                <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                  {role === "officer" ? (
-                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded" onClick={scanCode}>Scan QR Code</button>
-                  ) : (
-                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded" onClick={fine_history}>Fine History</button>
-                  )}
-                  <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded" onClick={logout}>Logout</button>
-                </div>
-              </dl>
+                  }
+
+                
+
+
+
+                  <div className="bg-grey-600 px-4 py-5 sm:grid border border-black sm:grid-cols-3 sm:gap-4 sm:px-6">
+
+                    {
+                      role == "officer" ?
+                      <div>
+                        <button className="bg-grey-600 hover:bg-[#a2cfa2] text-white font-bold py-2 px-4 border  border-black rounded" onClick={scanCode}>Scan QR Code</button>
+                        
+                      </div> : <button className="bg-grey-600 hover:bg-[#a2cfa2] text-white font-bold py-2 px-4 border border-black rounded"
+                      onClick={fine_history}>Fine History</button>
+
+                    }
+                    <button className="bg-grey-600 hover:bg-[#a2cfa2] text-white font-bold py-2 px-4 border border-black rounded"
+                      onClick={logout}>
+                      Logout
+                    </button>
+                    
+                    
+                  </div>
+                </dl>
+              </div>
             </div>
-          </div>
         }
+
       </div>
       <Toaster />
     </div>
-  );
+  )
 }
 
-export default Account;
+export default Account
+

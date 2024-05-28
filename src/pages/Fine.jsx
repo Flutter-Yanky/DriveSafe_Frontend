@@ -31,11 +31,9 @@ const Fine = () => {
             const data = await res.json();
 
             setFine_today(data.array[0].fine_today);
+        
             
-           
-      
-           
-
+        
         } catch (err) {
             console.log(err);
             console.log("Error aagya ji");
